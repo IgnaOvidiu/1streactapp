@@ -49,8 +49,8 @@ function App() {
   ];
 
   return (
-    <div className="App container mt-6">
-      <div className="card grid grid-cols-5 gap-4 text-center">
+    <div className="App flex mt-6">
+      <div className="card gap-4 text-center flex flex-row flex-wrap">
         {list.map((country) => (
           <Country props={country} key={`${country.name}`} />
         ))}
