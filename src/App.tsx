@@ -1,62 +1,81 @@
-import "./App.css";
-import Country from "./components/country";
+import { useEffect, useState } from 'react'
+import Country from './components/Country/Country'
+import AddCountry from './components/AddCountry/AddCountry'
 
-interface Country {
-  name: string;
-  capital: string;
-  population: number;
-  isEUMember: boolean;
-  flag: string;
+import './App.css'
+
+const list: ICountry[] = [
+  {
+    id: '2134',
+    name: "Romania",
+    capital: "Bucharest",
+    population: 18000000,
+    isEUMember: true
+  },
+  {
+    id: '124124gfas',
+    name: "Ukraine",
+    capital: "Kviv",
+    population: 35000000,
+    isEUMember: false
+  },
+  {
+    id: 'dgi9s4',
+    name: "Germany",
+    capital: "Berlin",
+    population: 80000000,
+    isEUMember: true
+  },
+  {
+    id: 'agmn3dngd9',
+    name: "Italy",
+    capital: "Rome",
+    population: 45000000,
+    isEUMember: true
+  },
+  {
+    id: 'asfn20292804-',
+    name: "Jordan",
+    capital: "Amman",
+    population: 100000000,
+    isEUMember: false
+  }
+]
+export interface ICountry {
+  id: string,
+  name: any,
+  capital: string,
+  population: number,
+  isEUMember: boolean
 }
 
-function App() {
-  const list: Country[] = [
-    {
-      name: "Romania",
-      capital: "Bucharest",
-      population: 1800000,
-      isEUMember: true,
-      flag: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP8AAACqCAMAAABVlWm8AAAACVBMVEUAK3/80RbOESaEDa1tAAAAxklEQVR4nO3PMQEAAAjAILV/aFPsgwbMFLZwhaTv7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v75/+HwW0qVdTeFEnAAAAAElFTkSuQmCC",
-    },
-    {
-      name: "Ukraine",
-      capital: "Kiev",
-      population: 3500000,
-      isEUMember: false,
-      flag: "https://rags2riches4schools.co.uk/wp-content/uploads/2022/02/Ukraine-Flag.png",
-    },
-    {
-      name: "Germany",
-      capital: "Berlin",
-      population: 8000000,
-      isEUMember: true,
-      flag: "https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png",
-    },
-    {
-      name: "Italy",
-      capital: "Rome",
-      population: 4500000,
-      isEUMember: true,
-      flag: "https://wallpaperaccess.com/full/46396.jpg",
-    },
-    {
-      name: "Jordan",
-      capital: "Amman",
-      population: 10000000,
-      isEUMember: false,
-      flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Flag_of_Jordan.svg/2560px-Flag_of_Jordan.svg.png",
-    },
-  ];
+const App = () => {
+  const [countries, setCountries] = useState<ICountry[]>([]);
+
+  const remCountry = (value: string) => {
+    const updatedCountries = countries.filter(c => c.name !== value)
+
+    setCountries(updatedCountries)
+  }
+
+  const add = (tara: ICountry) => {
+    setCountries([...countries, tara])
+  }
+
+  useEffect(() => {
+    setCountries(list);
+  }, [])
 
   return (
-    <div className="App flex mt-6">
-      <div className="card gap-4 text-center flex flex-row flex-wrap">
-        {list.map((country) => (
-          <Country props={country} key={`${country.name}`} />
-        ))}
+    <div className="App ">
+      <AddCountry add={add} />
+      <div className='grid grid-cols-4 gap-8'>
+        {countries.map((country, index) =>
+          <Country removeCountry={remCountry} {...country} key={`${country.name}-${index}`} />
+        )}
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
